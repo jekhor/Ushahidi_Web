@@ -11,7 +11,7 @@ new TWTR.Widget({
 		title: '',
 		subject: '',
 		width: 'auto',
-		height: 200,
+		height: 300,
 		theme: {
 			shell: {
 				background: '#ffffff',

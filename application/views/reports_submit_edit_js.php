@@ -229,13 +229,15 @@
 			// Display the map centered on a latitude and longitude (Google zoom levels)
 			map.setCenter(startPoint, <?php echo ($incident_zoom) ? $incident_zoom : $default_zoom; ?>);
 			
-			// Create the Editing Toolbar
-			var container = document.getElementById("panel");
-			var panel = new OpenLayers.Control.EditingToolbar(
-				vlayer, {div: container}
-			);
-			map.addControl(panel);
-			panel.activateControl(panel.controls[0]);
+			<?php if (!Kohana::config('settings.map_point_reports')) { ?>
+				// Create the Editing Toolbar
+				var container = document.getElementById("panel");
+				var panel = new OpenLayers.Control.EditingToolbar(
+					vlayer, {div: container}
+				);
+				map.addControl(panel);
+				panel.activateControl(panel.controls[0]);
+			<?php } ?>
 			drag.activate();
 			highlightCtrl.activate();
 			selectCtrl.activate();
@@ -243,6 +245,19 @@
 			map.events.register("click", map, function(e){
 				selectCtrl.deactivate();
 				selectCtrl.activate();
+				<?php if (Kohana::config('settings.map_point_reports')) { ?>
+					var i = vlayer.features.length - 1;
+					if (vlayer.features[i].geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
+						var lonlat = map.getLonLatFromPixel(e.xy);
+						vlayer.features[i].geometry.x = lonlat.lon;
+						vlayer.features[i].geometry.y = lonlat.lat;
+						lonlat.transform(vlayer.projection, proj_4326);
+						vlayer.features[i].lon = lonlat.lon;
+						vlayer.features[i].lat = lonlat.lat;
+						vlayer.drawFeature(vlayer.features[i]);
+						refreshFeatures();
+					}
+				<?php } ?>
 			});
 			
 			// Undo Action Removes Most Recent Marker

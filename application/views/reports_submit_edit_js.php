@@ -247,13 +247,13 @@
 				selectCtrl.activate();
 				<?php if (Kohana::config('settings.map_point_reports')) { ?>
 					var i = vlayer.features.length - 1;
-					if (vlayer.features[i].geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
+					var feature = vlayer.features[i];
+
+					if (feature.geometry.CLASS_NAME == "OpenLayers.Geometry.Point") {
 						var lonlat = map.getLonLatFromPixel(e.xy);
-						vlayer.features[i].geometry.x = lonlat.lon;
-						vlayer.features[i].geometry.y = lonlat.lat;
-						lonlat.transform(vlayer.projection, proj_4326);
-						vlayer.features[i].lon = lonlat.lon;
-						vlayer.features[i].lat = lonlat.lat;
+
+						feature.geometry.move(lonlat.lon - feature.geometry.x,
+							lonlat.lat - feature.geometry.y);
 						vlayer.drawFeature(vlayer.features[i]);
 						refreshFeatures();
 					}

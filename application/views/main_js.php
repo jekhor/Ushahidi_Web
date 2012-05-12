@@ -589,7 +589,18 @@
 			map.addControl(new OpenLayers.Control.Scale('mapScale'));
 			map.addControl(new OpenLayers.Control.ScaleLine());
 			map.addControl(new OpenLayers.Control.LayerSwitcher());
-			
+			map.addControl(new OpenLayers.Control.Permalink());
+
+			var params = OpenLayers.Util.getParameters().zoom;
+			if (params.zoom != null) {
+				defaultZoom = OpenLayers.Util.getParameters().zoom;
+			}
+
+			if ((params.lon != null) && (params.lat != null)) {
+				latitude = params.lat;
+				longitude = params.lon;
+			}
+
 			// display the map projection
 			document.getElementById('mapProjection').innerHTML = map.projection;
 				

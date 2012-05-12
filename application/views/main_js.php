@@ -591,7 +591,7 @@
 			map.addControl(new OpenLayers.Control.LayerSwitcher());
 			map.addControl(new OpenLayers.Control.Permalink());
 
-			var params = OpenLayers.Util.getParameters().zoom;
+			var params = OpenLayers.Util.getParameters();
 			if (params.zoom != null) {
 				defaultZoom = OpenLayers.Util.getParameters().zoom;
 			}

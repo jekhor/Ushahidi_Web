@@ -61,7 +61,7 @@ jQuery(window).load(function() {
 		graphicOpacity: 1,
 		graphicWidth: 21,
 		graphicHeight: 25,
-		graphicXOffset: -10,
+		graphicXOffset: -11,
 		graphicYOffset: -25
 	},
 	{
